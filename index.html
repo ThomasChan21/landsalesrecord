@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Land Sales 2013-2021</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="author" content="Thomas Chan">
+    <link rel="stylesheet" href="css/leaflet.css">
+    <script src="js/leaflet.js"></script>
+    <script src="js/jquery.js"></script>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+        }
+		.legend {
+            font-size: 14px;
+	        line-height: 16px;
+	        color: #333333;
+	        font-family: 'Open Sans', Helvetica, sans-serif;
+	        padding: 10px 14px;
+	        background-color: #FFFFFF ;
+	        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+	        border-radius: 5px;
+	        max-width: 200px;
+	        border: 1px solid grey;
+        }
+        .legend p b {
+	        font-size: 16px;
+	        line-height: 20px;
+        }
+
+		
+    </style>
+</head>
+<body>
+	<div id="map"></div>
+	<script>
+
+// Tile layer
+var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'});
+var imagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'});
+
+
+// load GeoJSON from a local folder
+var url = "data/HKGS_Dataset_Land-Sale-Records-from-financial-year-201314-onwards_2021-06-29-1612-00_fullset.geojson"
+
+
+// Markers
+var pnt13_14 = L.layerGroup();
+var pnt14_15 = L.layerGroup();
+var pnt15_16 = L.layerGroup();
+var pnt16_17 = L.layerGroup();
+var pnt17_18 = L.layerGroup();
+var pnt18_19 = L.layerGroup();
+var pnt19_20 = L.layerGroup();
+var pnt20_21 = L.layerGroup();
+var pnt21_22 = L.layerGroup();
+
+const pntarray = [pnt13_14, pnt14_15, pnt15_16, pnt16_17, pnt17_18, pnt18_19, pnt19_20, pnt20_21, pnt21_22];
+const yearlist = ["2013/2014", "2014/2015", "2015/2016", "2016/2017", "2017/2018", "2018/2019", "2019/2020", "2020/2021", "2021/2022"]; 
+
+
+// Map
+var map = L.map('map', {center: [22.39994, 114.12597], zoom: 11, 
+	layers: [osm, pnt13_14, pnt14_15, pnt15_16, pnt16_17, pnt17_18, pnt18_19, pnt19_20, pnt20_21, pnt21_22]});
+
+$.getJSON(url, function(data) {
+	$.each(data.features, function(key, value) {
+		var year = value.properties.finalcialYear.toString();
+		for (i=0; i < pntarray.length; i++) {
+			if (value.properties.userEN != "PETROL FILLING STATION") {
+				if (year == yearlist[i]) {
+					var targetlayer = pntarray[i];
+					L.geoJSON(value)
+					.bindPopup("<b>地點: </b>" + value.properties.locationZH + "<br>" 
+					+ "<b>地段編號: </b>" + value.properties.lotNumberZH + "<br>"
+					+ "<b>地盤面積（平方米）: </b>" + value.properties.areaInSquareMetres + "<br>"
+					+ "<b>用途: </b>" + value.properties.userZH + "<br>"
+					+ "<b>地價（百萬元）: </b>$" + value.properties.premium + "<br>"
+					+ "<b>最高的投標者 (母公司): </b>" + value.properties.highestTendererZH + "<br>"
+					+ "<b>賣地／招標成交日期: </b>" + value.properties.awardDateZH)
+					.addTo(targetlayer);
+				};	
+			};
+		};
+	});
+});
+
+
+// Layer control
+var baseMaps = {
+    "OSM 圖層": osm,
+    "Imagery 圖層": imagery
+};
+var overlayMaps = {
+    "2013/2014": pnt13_14,
+	"2014/2015": pnt14_15,
+	"2015/2016": pnt15_16,
+	"2016/2017": pnt16_17,
+	"2017/2018": pnt17_18,
+	"2018/2019": pnt18_19,
+	"2019-2020": pnt19_20,
+	"2020/2021": pnt20_21,
+	"2021-2022": pnt21_22
+};
+L.control.layers(baseMaps, overlayMaps, {position: "topleft", collapsed: false}).addTo(map);
+
+
+// Create Leaflet Control Object for Legend
+var legend = L.control({position: "bottomleft"});
+
+// Function that runs when legend is added to map
+legend.onAdd = function(map) {
+
+	// Create Div Element and Populate it with HTML
+	var div = L.DomUtil.create("div", "legend");		    
+    div.innerHTML = 
+        '<p><b>2013-2021賣地個案</b></p><hr>' +
+        '<p>選取賣地個案年份</p>' +
+        '<p>點擊地點獲取詳細資料!</p>' + 
+		'<p>備註: 不包加油站地皮</p><hr>' + 
+		'<p>資料來源: 地政總署</p>';
+
+	// Return the Legend div containing the HTML content
+	return div;
+
+};
+
+// Add Legend to Map
+legend.addTo(map);
+
+
+
+
+
+
+	</script>
+</body>
+</html>
+
