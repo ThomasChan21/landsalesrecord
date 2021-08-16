@@ -107,7 +107,7 @@ var overlayMaps = {
 	"2020/2021": pnt20_21,
 	"2021-2022": pnt21_22
 };
-L.control.layers(baseMaps, overlayMaps, {position: "topleft", collapsed: false}).addTo(map);
+L.control.layers(baseMaps, overlayMaps, {position: "topleft", collapsed: true}).addTo(map);
 
 
 // Create Leaflet Control Object for Legend
@@ -122,8 +122,8 @@ legend.onAdd = function(map) {
         '<p><b>2013-2021賣地個案</b></p><hr>' +
         '<p>選取賣地個案年份</p>' +
         '<p>點擊地點獲取詳細資料!</p>' + 
-		'<p>備註: 不包加油站地皮</p><hr>' + 
-		'<p>資料來源: 地政總署</p>';
+	'<p>備註: 不包加油站地皮<br>' + 
+	'資料來源: 地政總署</p>';
 
 	// Return the Legend div containing the HTML content
 	return div;
