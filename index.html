@@ -78,7 +78,7 @@ var myIcon = L.icon({
 });
 
 var singleMarker = L.marker([22.39994, 114.12597], { icon: myIcon, draggable: true }).addTo(map);
-var popup = singleMarker.bindPopup('目標物業 ' + singleMarker.getLatLng()).openPopup();
+var popup = singleMarker.bindPopup('目標物業(可移動) ' + singleMarker.getLatLng()).openPopup();
 popup.addTo(map);		
 		
 		
