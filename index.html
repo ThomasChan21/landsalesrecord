@@ -71,6 +71,17 @@ function formatNumber(num) {
 var map = L.map('map', {center: [22.39994, 114.12597], zoom: 11, 
 	layers: [osm, pnt13_14, pnt14_15, pnt15_16, pnt16_17, pnt17_18, pnt18_19, pnt19_20, pnt20_21, pnt21_22]});
 
+// Target Property Icon (moveable)
+var myIcon = L.icon({
+	iconUrl: 'img/marker-icon-red.png',
+	iconSize: [25, 40],
+});
+
+var singleMarker = L.marker([22.39994, 114.12597], { icon: myIcon, draggable: true }).addTo(map);
+var popup = singleMarker.bindPopup('目標物業 ' + singleMarker.getLatLng()).openPopup();
+popup.addTo(map);		
+		
+		
 $.getJSON(url, function(data) {
 	$.each(data.features, function(key, value) {
 		var year = value.properties.finalcialYear.toString();
