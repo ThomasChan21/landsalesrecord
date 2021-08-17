@@ -63,6 +63,9 @@ var pnt21_22 = L.layerGroup();
 const pntarray = [pnt13_14, pnt14_15, pnt15_16, pnt16_17, pnt17_18, pnt18_19, pnt19_20, pnt20_21, pnt21_22];
 const yearlist = ["2013/2014", "2014/2015", "2015/2016", "2016/2017", "2017/2018", "2018/2019", "2019/2020", "2020/2021", "2021/2022"]; 
 
+function formatNumber(num) {
+	return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+}
 
 // Map
 var map = L.map('map', {center: [22.39994, 114.12597], zoom: 11, 
@@ -79,10 +82,10 @@ $.getJSON(url, function(data) {
 					.bindPopup("<b>地點: </b>" + value.properties.locationZH + "<br>" 
 					+ "<b>地段編號: </b>" + value.properties.lotNumberZH + "<br>"
 					+ "<b>用途: </b>" + value.properties.userZH + "<br>"
-					+ "<b>地盤面積（平方呎）: </b>" + value.properties.areaInSquareFeet + "<br>"
-					+ "<b>可建樓面面積（平方呎）: </b>" + value.properties.maxGFAinSquareFeet + "<br>"
-					+ "<b>地價（百萬元）: </b>$" + value.properties.premium + "<br>"
-					+ "<b>每呎樓面地價: </b>$" + value.properties.AV + "<br>"
+					+ "<b>地盤面積（平方呎）: </b>" + formatNumber(value.properties.areaInSquareFeet) + "<br>"
+					+ "<b>可建樓面面積（平方呎）: </b>" + formatNumber(value.properties.maxGFAinSquareFeet) + "<br>"
+					+ "<b>地價（百萬元）: </b>$" + formatNumber(value.properties.premium) + "<br>"
+					+ "<b>每呎樓面地價: </b>$" + formatNumber(value.properties.AV) + "<br>"
 					+ "<b>最高的投標者: </b>" + value.properties.highestMotherTendererZH + "<br>"
 					+ "<b>賣地／招標成交日期: </b>" + value.properties.awardDateZH + "<br>"
 					+ "<b>備註: </b>" + value.properties.remarksZH)
