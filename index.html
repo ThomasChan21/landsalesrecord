@@ -78,12 +78,14 @@ $.getJSON(url, function(data) {
 					L.geoJSON(value)
 					.bindPopup("<b>地點: </b>" + value.properties.locationZH + "<br>" 
 					+ "<b>地段編號: </b>" + value.properties.lotNumberZH + "<br>"
-					+ "<b>地盤面積（平方米）: </b>" + value.properties.areaInSquareMetres + "<br>"
 					+ "<b>用途: </b>" + value.properties.userZH + "<br>"
+					+ "<b>地盤面積（平方呎）: </b>" + value.properties.areaInSquareFeet + "<br>"
+					+ "<b>可建樓面面積（平方呎）: </b>" + value.properties.maxGFAinSquareFeet + "<br>"
 					+ "<b>地價（百萬元）: </b>$" + value.properties.premium + "<br>"
-					+ "<b>最高的投標者 (母公司): </b>" + value.properties.highestTendererZH + "<br>"
+					+ "<b>每呎樓面地價: </b>$" + value.properties.AV + "<br>"
+					+ "<b>最高的投標者: </b>" + value.properties.highestMotherTendererZH + "<br>"
 					+ "<b>賣地／招標成交日期: </b>" + value.properties.awardDateZH + "<br>"
-					+ "<b>每呎樓面地價: </b>" + value.properties.AV)
+					+ "<b>備註: </b>" + value.properties.remarksZH)
 					.addTo(targetlayer);
 				};	
 			};
