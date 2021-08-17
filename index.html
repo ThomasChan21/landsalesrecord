@@ -46,7 +46,7 @@ var imagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/
 
 
 // load GeoJSON from a local folder
-var url = "data/HKGS_Dataset_Land-Sale-Records-from-financial-year-201314-onwards_2021-06-29-1612-00_fullset.geojson"
+var url = "data/HKGS_Dataset_Land-Sale-Records-from-financial-year-201314-onwards_2021-06-29-1612-00_fullset_with_AV.geojson"
 
 
 // Markers
@@ -82,7 +82,8 @@ $.getJSON(url, function(data) {
 					+ "<b>用途: </b>" + value.properties.userZH + "<br>"
 					+ "<b>地價（百萬元）: </b>$" + value.properties.premium + "<br>"
 					+ "<b>最高的投標者 (母公司): </b>" + value.properties.highestTendererZH + "<br>"
-					+ "<b>賣地／招標成交日期: </b>" + value.properties.awardDateZH)
+					+ "<b>賣地／招標成交日期: </b>" + value.properties.awardDateZH + "<br>"
+					+ "<b>每呎樓面地價: </b>" + value.properties.AV)
 					.addTo(targetlayer);
 				};	
 			};
@@ -120,8 +121,6 @@ legend.onAdd = function(map) {
 	var div = L.DomUtil.create("div", "legend");		    
     div.innerHTML = 
         '<p><b>2013-2021賣地個案</b></p><hr>' +
-        '<p>選取賣地個案年份</p>' +
-        '<p>點擊地點獲取詳細資料!</p>' + 
 	'<p>備註: 不包加油站地皮<br>' + 
 	'資料來源: 地政總署</p>';
 
